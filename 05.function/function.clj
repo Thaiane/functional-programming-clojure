@@ -27,3 +27,18 @@
 
 
 (filter #(> (:valor %) 100) transacoes)
+
+
+
+;; Thread first
+
+(resumo (first transacoes))
+;; =
+(-> (first transacoes)
+    (resumo))
+
+;; Thread last
+
+(->> (filter despesa? transacoes)
+     (map resumo)
+     (reduce +))
