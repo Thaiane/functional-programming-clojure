@@ -17,6 +17,29 @@
 ;; Atom é referencia para um simbolo. É a forma de trabalhar com estados.
 ;; Se quiser o valor do atom, precida pedir o @ antes do nome dele. @registros é um exemplo.
 
+;; ---- Recursão ----
 
+(defn despesa?
+  [transacao]
+  (= (:valor transacao) "despesa"))
+
+(defn calcular
+  [acumulado transacao]
+  (let [valor (:valor transacao)]
+        (if (despesa? transacao)
+          (- acumulado valor)
+          (+ acumulado valor))))
+
+
+(defn saldo-acumulado
+  [acumulado transacoes]
+  (if-let [transacao (first transacoes)]
+    (do
+      (prn "Valor da transacao:" (:valor transacao))
+      (saldo-acumulado (calcular acumulado transacao) (rest transacoes)))    
+  acumulado))
+
+
+(println (saldo-acumulado 0 @registros))
 
 
